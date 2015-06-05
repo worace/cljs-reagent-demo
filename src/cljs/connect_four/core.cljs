@@ -9,43 +9,29 @@
 ;; -------------------------
 ;; Views
 
-(defn home-page []
+(enable-console-print!)
+
+(println "DOING SUTFFF")
+(defn home-page [grid]
   [:div [:h2 "Pizza"]
    [:div [:a {:href "#/about"} "go to about page"]]])
 
-(defn about-page []
-  [:div [:h2 "About connect-four"]
-   [:div [:a {:href "#/"} "go to the home page"]]])
 
-(defn current-page []
-  [:div [(session/get :current-page)]])
+(defn generate-grid []
+  (for [x (range 0 4) y (range 0 4)] [x y])
+  )
 
-;; -------------------------
-;; Routes
-(secretary/set-config! :prefix "#")
+(def grid (atom (generate-grid)))
 
-(secretary/defroute "/" []
-  (session/put! :current-page #'home-page))
+(defn grid-view [grid]
+  [:ul (map cell grid)])
 
-(secretary/defroute "/about" []
-  (session/put! :current-page #'about-page))
-
-;; -------------------------
-;; History
-;; must be called after routes have been defined
-(defn hook-browser-navigation! []
-  (doto (History.)
-    (events/listen
-     EventType/NAVIGATE
-     (fn [event]
-       (secretary/dispatch! (.-token event))))
-    (.setEnabled true)))
-
-;; -------------------------
-;; Initialize app
-(defn mount-root []
-  (reagent/render [current-page] (.getElementById js/document "app")))
+(defn cell [coords]
+  (println coords)
+  [:li [:span (interpose ", " coords)]])
 
 (defn init! []
-  (hook-browser-navigation!)
-  (mount-root))
+  (println "hello")
+  (reagent/render [grid-view @grid] (.getElementById js/document "app")))
+
+(println "HIIII")

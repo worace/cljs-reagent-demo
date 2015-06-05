@@ -4,10 +4,14 @@
             [connect-four.core :as rc]))
 
 
+(enable-console-print!)
+
 (def isClient (not (nil? (try (.-document js/window)
                               (catch js/Object e nil)))))
 
 (def rflush reagent/flush)
+
+;; (println "HIIIIIII")
 
 (defn add-test-div [name]
   (let [doc     js/document
@@ -37,3 +41,6 @@
   (with-mounted-component (rc/home-page)
     (fn [c div]
       (is (found-in #"Welcome to" div)))))
+
+;; (deftest test-board
+;;   (is (= 42 (reduce + (map count (board))))))

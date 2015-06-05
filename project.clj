@@ -79,8 +79,8 @@
                                               :compiler {:main "connect-four.dev"
                                                          :source-map true}}
                                         :test {:source-paths ["src/cljs"  "test/cljs"]
+                                               :notify-command ["test"]
                                                :compiler {:output-to "target/test.js"
-                                                          :optimizations :whitespace
                                                           :pretty-print true}}}
                                :test-commands {"unit" ["phantomjs" :runner
                                                        "test/vendor/es5-shim.js"
